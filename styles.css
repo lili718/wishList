@@ -18,3 +18,7 @@ body {
     padding-right: 30px;
     flex-basis: 40%;
 }
+a{
+    display: grid;
+    padding-bottom: 10px;
+}
