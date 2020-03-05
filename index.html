@@ -4,14 +4,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>wishList Homepage</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="wishlist.js"></script>
+    <script type="text/javascript" src="wishlist.js">  
+    </script>
 </head>
 <body>
-    <div id="navBar">
-        <span id="title">wishList</span>
-        <span>about us</span>
-        <span>contact us</span>
-        <span>login</span>
+    <!--Facebook login in-->
+    <div class="Login box">
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=508801150074502&autoLogAppEvents=1"></script>
+        <div id="navBar">
+            <span id="title">wishList</span>
+            <span>about us</span>
+            <span>contact us</span>
+            <span>login</span>
+        </div>
+            <center>
+                 <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="true"></div>
+            </center>
     </div>
 </body>
 </html>
