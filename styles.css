@@ -1,0 +1,24 @@
+body {
+    font-family: Apple Chancery, cursive, sans-serif;
+    font-size: 1.5em;
+}
+#navBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: #7331B5;
+    color: white;
+    border-radius: 100px;
+    height: 50px;
+    padding-left: 20px;
+    padding-top: 10px;
+    flex-wrap: wrap;
+}
+#title {
+    padding-right: 30px;
+    flex-basis: 40%;
+}
+a{
+    display: grid;
+    padding-bottom: 10px;
+}
