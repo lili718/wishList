@@ -21,12 +21,39 @@ body {
 a {
     display: grid;
     padding-bottom: 10px;
-    text-decoration: none;
 }
-span a {
+
+table {
+    float:left;
+    width:33.333333%;
+    display:inline-block;
+}
+
+input[type=text], select {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+input[type=submit] {
+    width: 10%;
+    background-color: #7331B5;
     color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    border-radius: 100px;
+}
     text-decoration: none;
 }
+
 .fb-login-button {
     margin-top: 30px;
 }
@@ -48,4 +75,8 @@ button {
 }
 button:hover {
     cursor: pointer;
+}
+span a {
+    color: white;
+    text-decoration: none;
 }
