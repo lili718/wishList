@@ -1,8 +1,8 @@
 let express = require("express");
 //let request = require("request");
 let app = express();
-//let mysql = require('mysql');
-/*
+let mysql = require('mysql');
+
 let con = mysql.createConnection({
     'host': 'localhost',
     'user': 'wishadmin',
@@ -17,7 +17,7 @@ con.connect(function(err) {
     else {
         console.log("Database successfully connected");
     }
-})*/
+});
 
 app.use(express.static("."));
 
