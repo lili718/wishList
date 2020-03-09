@@ -53,10 +53,7 @@ input[type=submit] {
 }
     text-decoration: none;
 }
-span a {
-    color: white;
-    text-decoration: none;
-}
+
 .fb-login-button {
     margin-top: 30px;
 }
@@ -78,4 +75,8 @@ button {
 }
 button:hover {
     cursor: pointer;
+}
+span a {
+    color: white;
+    text-decoration: none;
 }
