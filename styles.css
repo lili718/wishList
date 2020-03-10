@@ -85,7 +85,10 @@ h a {
     text-decoration: none;
     text-align: center;
 }
-
+.devbox{
+    display: flex;
+    justify-content: center;
+}
 .Developers{
     padding: 15px;
     padding-top: 35px;
