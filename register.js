@@ -1,0 +1,101 @@
+function checkForm() {
+    let errors = [];
+    //Check full name validation
+    let userName = document.getElementById("fullName");
+    if (userName.value.length < 1) {
+        userName.style.border = "2px solid red";
+        let nameError = "Missing full name.";
+        errors.push(nameError);
+    }
+    else {
+        userName.style.border = "1px solid #aaa";
+    }
+
+    //Check email address regex validation
+    let userEmail = document.getElementById("email");
+    let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/;
+    if (emailRegex.test(userEmail.value) == false) {
+        userEmail.style.border = "2px solid red";
+        let emailError = "Invalid or missing email address.";
+        errors.push(emailError);
+    }
+    else {
+        userEmail.style.border = "1px solid #aaa";
+    }
+
+    //Check password length
+    let userPassword = document.getElementById("password");
+    if ((userPassword.value.length < 10) || (userPassword.value.length > 20)) {
+        userPassword.style.border = "2px solid red";
+        let passLenError = "Password must be between 10 and 20 characters.";
+        errors.push(passLenError);
+    }
+    else {
+        userPassword.style.border = "1px solid #aaa";
+    }
+
+    //Check for lowercase letter
+    let lowerRegex = /[a-z]/;
+    if (lowerRegex.test(userPassword.value) == false) {
+        userPassword.style.border = "2px solid red";
+        let lowerError = "Password must contain at least one lowercase character.";
+        errors.push(lowerError);
+    }
+    else {
+        userPassword.style.border = "1px solid #aaa";
+    }
+
+    //Check for uppercase letter
+    let upperRegex = /[A-Z]/;
+    if (upperRegex.test(userPassword.value) == false) {
+        userPassword.style.border = "2px solid red";
+        let upperError = "Password must contain at least one uppercase character.";
+        errors.push(upperError);
+    }
+    else {
+        userPassword.style.border = "1px solid #aaa";
+    }
+
+    //Check for digit in password
+    let numRegex = /[0-9]/;
+    if (numRegex.test(userPassword.value) == false) {
+        userPassword.style.border = "2px solid red";
+        let numError = "Password must contain at least one digit.";
+        errors.push(numError);
+    }
+    else {
+        userPassword.style.border = "1px solid #aaa";
+    }
+
+    let userConfirm = document.getElementById("passwordConfirm");
+    if (userPassword.value != userConfirm.value) {
+        userPassword.style.border = "2px solid red";
+        userConfirm.style.border = "2px solid red";
+        let confirmErr = "Password and confirmation password don't match.";
+        errors.push(confirmErr);
+    }
+    else {
+        userConfirm.style.border = "1px solid #aaa";
+    }
+
+    if (errors.length > 0) {
+        let divList = "<ul>";
+        for (var i = 0; i < errors.length; i++) {
+            divList += "<li>" + errors[i] + "</li>";
+        }
+        divList += "</ul>";
+        document.getElementById("formErrors").innerHTML = divList;
+        document.getElementById("formErrors").style.display = "block";
+    }
+    else {
+        document.getElementById("formErrors").style.display = "none";
+        
+    }
+}
+
+document.getElementById("submit").addEventListener("click", function(event) {
+    checkForm();
+
+    // Prevent default form action. DO NOT REMOVE THIS LINE
+    event.preventDefault();
+});
