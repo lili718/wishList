@@ -47,11 +47,8 @@ input[type=submit] {
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     border-radius: 100px;
-}
-    text-decoration: none;
 }
 
 .fb-login-button {
@@ -80,6 +77,12 @@ span a {
     color: white;
     text-decoration: none;
 }
+<<<<<<< HEAD
+form {
+    display: flex;
+    flex-direction: column;
+}
+=======
 h a {
     color: black;
     text-decoration: none;
@@ -93,3 +96,4 @@ h a {
     padding: 15px;
     padding-top: 35px;
 }
+>>>>>>> 8ca61a57edc170ebe02cf05b0432076eca0961f8
