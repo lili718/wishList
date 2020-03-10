@@ -77,7 +77,23 @@ span a {
     color: white;
     text-decoration: none;
 }
+<<<<<<< HEAD
 form {
     display: flex;
     flex-direction: column;
 }
+=======
+h a {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+.devbox{
+    display: flex;
+    justify-content: center;
+}
+.Developers{
+    padding: 15px;
+    padding-top: 35px;
+}
+>>>>>>> 8ca61a57edc170ebe02cf05b0432076eca0961f8

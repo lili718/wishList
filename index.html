@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="549873708326-r0jfq1mp3s7bqm4i53celagl07j4kmt0.apps.googleusercontent.com">
+    <meta name="google-signin-scope" content="profile email">
     <title>wishList Homepage</title>
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="wishlist.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
         <div id="navBar">
@@ -21,11 +24,12 @@
 
                     <center>
                          <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="true"></div>
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </center>
-            </div>
-            <a href="signup.html"><button type="button">
+                <a href="signup.html"><button type="button">
                 <strong>Sign up with our website!</strong>
-            </button></a>
+                </button></a>
+            </div>
     </div>
 </body>
 </html>
