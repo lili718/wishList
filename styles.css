@@ -80,3 +80,13 @@ span a {
     color: white;
     text-decoration: none;
 }
+h a {
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+
+.Developers{
+    padding: 15px;
+    padding-top: 35px;
+}
