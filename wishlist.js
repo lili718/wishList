@@ -47,4 +47,12 @@ function onSignIn(googleUser) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+/*
+let login = document.getElementById("loginsubmit");
+login.addEventListener("click", sendInfo);
 
+function sendInfo() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "./logincheck");
+    xhttp.send();
+} */

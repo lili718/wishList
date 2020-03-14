@@ -1,5 +1,5 @@
 function login(conn, user, pass, next) {
-    const query = "SELECT username FROM users WHERE username = " + conn.escape(user) +
+    const query = "SELECT email FROM users WHERE email = " + conn.escape(user) +
         "AND password = SHA1('" + pass + "')";
     conn.query(query, function(err, rows, fields) {
        if (err)
