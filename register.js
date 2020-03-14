@@ -1,15 +1,26 @@
 function checkForm() {
     let errors = [];
-    //Check full name validation
-    let userName = document.getElementById("fullName");
-    if (userName.value.length < 1) {
-        userName.style.border = "2px solid red";
-        let nameError = "Missing full name.";
+    //Check first name validation
+    let firstName = document.getElementById("firstName");
+    if (firstName.value.length < 1) {
+        firstName.style.border = "2px solid red";
+        let nameError = "Missing first name.";
         errors.push(nameError);
     }
     else {
-        userName.style.border = "1px solid #aaa";
+        firstName.style.border = "1px solid #aaa";
     }
+
+    let lastName = document.getElementById("lastName");
+    if (lastName.value.length < 1) {
+        lastName.style.border = "2px solid red";
+        let nameError = "Missing last name.";
+        errors.push(nameError);
+    }
+    else {
+        lastName.style.border = "1px solid #aaa";
+    }
+
 
     //Check email address regex validation
     let userEmail = document.getElementById("email");
