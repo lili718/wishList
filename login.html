@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>wishList Login</title>
     <link rel="stylesheet" href="styles.css">
@@ -13,12 +14,15 @@
         <span><a href="contactus.html">contact us</a></span>
         <span><a href="signup.html">signup</a></span>
     </div>
-    <form method="post" action="./logincheck">
-        <label for="userEmail">Email:</label>
-        <input type="email" name="email">
-        <label for="password">Password:</label>
-        <input type="password" name="pass">
-        <input id="loginsubmit" type="submit" value="Login">
-    </form>
+    <div class="login-form">
+        <h1>Login Form</h1>
+        <form method="post" action="auth">
+            <label for="userEmail">Email:</label>
+            <input type="email" name="email">
+            <label for="password">Password:</label>
+            <input type="password" name="pass">
+            <input id="loginsubmit" type="submit" value="Login">
+        </form>
+    </div>
 </body>
 </html>

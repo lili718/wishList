@@ -2,6 +2,7 @@ let express = require("express");
 //let request = require("request");
 let app = express();
 let mysql = require('mysql');
+let session = require("client-sessions");
 const login = require("./login");
 const bp = require("body-parser");
 app.use(bp.urlencoded({extended:false}));
@@ -23,13 +24,21 @@ con.connect(function(err) {
     }
 });
 
-app.post("./logincheck", function(req, res) {
-    login.login(conn, req.body.email, req.body.pass, function(val) {
-       if (val<=0)
-           res.redirect("./login");
-       else
-           res.redirect("./home");
-    });
+app.post("/auth", function(req, res) {
+    let email = req.body.email;
+    let pass = req.body.pass;
+    if (email && pass) {
+        login.login(con, email, pass, function(val) {
+            if (val<=0) //if not successful
+                res.redirect("./login.html");
+            else //if successful
+                res.redirect("./home.html");
+        });
+    }
+    else {
+        res.redirect("./login.html");
+        res.end();
+    }
 });
 
 app.use(express.static("."));
