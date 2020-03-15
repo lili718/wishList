@@ -21,6 +21,15 @@ function checkForm() {
         lastName.style.border = "1px solid #aaa";
     }
 
+    let userName = document.getElementById("username");
+    if (userName.value.length < 1) {
+        userName.style.border = "2px solid red";
+        let nameError = "Missing user name.";
+        errors.push(nameError);
+    }
+    else {
+        userName.style.border = "1px solid #aaa";
+    }
 
     //Check email address regex validation
     let userEmail = document.getElementById("email");
@@ -100,13 +109,23 @@ function checkForm() {
     }
     else {
         document.getElementById("formErrors").style.display = "none";
-        
+        const formData = '{"firstName":"' + firstName.value + '","lastName":"' + lastName.value + '", "userName":' +
+            '"' + userName.value + '","userEmail":"' + userEmail.value + '", "userPassword":"' + userPassword.value + '"}';
+        let JSONform = JSON.parse(formData);
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.status === 200) {
+                let message = document.getElementById("message");
+                message.innerHTML = "<h3>Account successfully created!</h3>" +
+                    "<p>Return to our homepage to sign in successfully!</p>";
+            }
+        }
+        xhr.open("POST", "./register", true);
+        xhr.send(JSONform);
     }
 }
 
 document.getElementById("submit").addEventListener("click", function(event) {
     checkForm();
-
-    // Prevent default form action. DO NOT REMOVE THIS LINE
     event.preventDefault();
 });
