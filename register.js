@@ -111,7 +111,6 @@ function checkForm() {
         document.getElementById("formErrors").style.display = "none";
         let formData = '{"firstName":"' + firstName.value + '","lastName":"' + lastName.value + '", "userName":' +
             '"' + userName.value + '","userEmail":"' + userEmail.value + '", "userPassword":"' + userPassword.value + '"}';
-        let JSONform = JSON.parse(formData);
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.status === 200) {
@@ -121,7 +120,8 @@ function checkForm() {
             }
         }
         xhr.open("POST", "./register", true);
-        xhr.send(JSONform);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(formData);
     }
 }
 
