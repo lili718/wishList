@@ -18,27 +18,15 @@ body {
     padding-right: 30px;
     flex-basis: 40%;
 }
-a {
-    display: grid;
-    padding-bottom: 10px;
-}
-
 table {
     float:left;
     width:33.333333%;
     display:inline-block;
 }
 
-input[type=text], select {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+a {
+    text-decoration: none;
 }
-
 
 input[type=submit] {
     width: 10%;
@@ -47,11 +35,8 @@ input[type=submit] {
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     border-radius: 100px;
-}
-    text-decoration: none;
 }
 
 .fb-login-button {
@@ -63,6 +48,8 @@ input[type=submit] {
     border-radius: 100px;
     display: flex;
     flex-direction: column;
+    padding: 5%;
+    justify-content: center;
 }
 button {
     color: white;
@@ -80,16 +67,22 @@ span a {
     color: white;
     text-decoration: none;
 }
+form {
+    display: flex;
+    flex-direction: column;
+}
 h a {
     color: black;
     text-decoration: none;
     text-align: center;
 }
-.devbox{
+.devbox {
     display: flex;
     justify-content: center;
 }
-.Developers{
-    padding: 15px;
-    padding-top: 35px;
+.Developers {
+    padding: 35px 15px 15px 15px;
+}
+.description {
+    font-size: 20px;
 }
