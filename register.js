@@ -109,7 +109,7 @@ function checkForm() {
     }
     else {
         document.getElementById("formErrors").style.display = "none";
-        const formData = '{"firstName":"' + firstName.value + '","lastName":"' + lastName.value + '", "userName":' +
+        let formData = '{"firstName":"' + firstName.value + '","lastName":"' + lastName.value + '", "userName":' +
             '"' + userName.value + '","userEmail":"' + userEmail.value + '", "userPassword":"' + userPassword.value + '"}';
         let JSONform = JSON.parse(formData);
         let xhr = new XMLHttpRequest();
