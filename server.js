@@ -77,7 +77,6 @@ app.get("/loginpage", function(req, res) {
 
 app.post("/register", function(req, res) {
     console.log(req.body);
-    /*
     let firstName = req.body.firstName;
     let lastName = req.body.lastName;
     let username = req.body.userName;
@@ -85,10 +84,11 @@ app.post("/register", function(req, res) {
     let pass = req.body.userPassword;
     if (firstName && lastName && username && email && pass) {
         dbregister.register(con, firstName, lastName, username, email, pass);
+        console.log("Addition made");
     }
     else {
         console.log("Addition into database not successful.")
-    }*/
+    }
     res.send("Request received!");
 });
 
