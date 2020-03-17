@@ -54,22 +54,24 @@ app.get("/loginpage", function(req, res) {
                 "<span><a href='contactus.html'>contact us</a></span>" +
                 "<span><a href='signup.html'>sign up</a> </span>" +
             "</div>" +
-            "<div class='login-form'>" +
-                "<h1>Login Form</h1>";
+            "<center>" +
+                "<div class='container'>" +
+                    "<div class='login-form'>" +
+                        "<h1>Login Form</h1>";
 
         if(req.cookie.msg) {
             mystr += "<p style='color: red'>" + req.cookie.msg + "</p>";
             delete req.cookie.msg;
         }
 
-        mystr += "<form method='POST' action='./auth'>" +
-                        "<label for='userName'>Username:</label>" +
-                        "<input type='text' name='user'>" +
-                        "<label for='password'>Password:</label>" +
-                        "<input type='password' name='pass'>" +
-                        "<input type='submit' value='Login'>" +
-                    "</form>" +
-            "</div>" +
+            mystr += "<form method='POST' action='./auth'>" +
+                            "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
+                            "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
+                            "<input type='submit' value='Login'>" +
+                        "</form>" +
+                    "</div>" +
+                "</div>" +
+            "</center>" +
        "</body>" +
        "</html>";
    res.send(mystr);
