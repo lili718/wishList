@@ -86,3 +86,9 @@ h a {
 .description {
     font-size: 20px;
 }
+button a {
+    color: white;
+}
+#newlistbutton {
+    width: 30%;
+}
