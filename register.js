@@ -116,7 +116,11 @@ function checkForm() {
             if (xhr.status === 200) {
                 let message = document.getElementById("message");
                 message.innerHTML = "<h3>Account successfully created!</h3>" +
-                    "<p>Return to our homepage to sign in successfully!</p>";
+                    "<p>You will be redirected to our login page shortly.</p>";
+                setTimeout(redirect, 3000);
+                function redirect() {
+                    window.location.replace("http://localhost:8080/loginpage");
+                }
             }
         }
         xhr.open("POST", "./register", true);

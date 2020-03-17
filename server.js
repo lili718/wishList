@@ -54,22 +54,24 @@ app.get("/loginpage", function(req, res) {
                 "<span><a href='contactus.html'>contact us</a></span>" +
                 "<span><a href='signup.html'>sign up</a> </span>" +
             "</div>" +
-            "<div class='login-form'>" +
-                "<h1>Login Form</h1>";
+            "<center>" +
+                "<div class='container'>" +
+                    "<div class='login-form'>" +
+                        "<h1>Login Form</h1>";
 
         if(req.cookie.msg) {
             mystr += "<p style='color: red'>" + req.cookie.msg + "</p>";
             delete req.cookie.msg;
         }
 
-        mystr += "<form method='POST' action='./auth'>" +
-                        "<label for='userName'>Username:</label>" +
-                        "<input type='text' name='user'>" +
-                        "<label for='password'>Password:</label>" +
-                        "<input type='password' name='pass'>" +
-                        "<input type='submit' value='Login'>" +
-                    "</form>" +
-            "</div>" +
+            mystr += "<form method='POST' action='./auth'>" +
+                            "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
+                            "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
+                            "<input type='submit' value='Login'>" +
+                        "</form>" +
+                    "</div>" +
+                "</div>" +
+            "</center>" +
        "</body>" +
        "</html>";
    res.send(mystr);
@@ -108,7 +110,7 @@ app.post("/auth", function(req, res) { //authorizes login from user
         });
     }
     else {
-        res.redirect("./login.html");
+        res.redirect("/loginpage");
         res.end();
     }
 });
@@ -146,7 +148,27 @@ app.get("/home", function(req, res) {
         let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
         con.query(numQuery, function(err, result, fields) {
             if (err) {
-                console.log("Error with retrieving wishlist query.")
+                console.log("Error:", err);
+                mystr += "<h3>There was an error in retrieving your lists."
+                mystr += "</div>" +
+                    "</body>" +
+                    "</html>";
+                res.send(mystr);
+            }
+            if (result.length <= 0) {
+                mystr += "<h3>You currently have no wishlists created!</h3>" +
+                    "</div>" +
+                    "</body>" +
+                    "</html>";
+                res.send(mystr);
+            }
+            else {
+                mystr += "<table>"
+                for (let index = 0; index < result.length; index++) {
+                    mystr += "<tr><th>" + result[index].name_of_wishlist + "</th></tr>";
+                }
+                mystr += "</table>" + "</div>" + "</body>" + "</html>";
+                res.send(mystr);
             }
         });
         /*
@@ -175,10 +197,6 @@ app.get("/home", function(req, res) {
                         "</ul>" +
                         "</td></table>" +
                         */
-        mystr += "</div>" +
-                "</body>" +
-            "</html>";
-        res.send(mystr);
     }
 });
 
@@ -210,7 +228,8 @@ app.get("/addlist", function(req, res) {
             "</form>";
 
         if (req.cookie.status) {
-            mystr += "<p style='color: red'>" + req.cookie.status + "</p>";
+            mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
+                "<p>Click here to return to the <a href='/home'>homepage</a>.</p>";
             delete req.cookie.status;
         }
 
