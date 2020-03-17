@@ -139,7 +139,7 @@ app.get("/home", function(req, res) {
                     "</div>" +
                     "<center>" +
                     "<h3 id='header'>Welcome " + req.cookie.user+ "!</h3>" +
-                    "<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4S71dwKwLP6LUciL0KOzTIqGDVIaympgl-_r_oRrz5K02aavq' alt='User Photo'>" +
+                    "<img id='userPhoto' src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4S71dwKwLP6LUciL0KOzTIqGDVIaympgl-_r_oRrz5K02aavq' alt='User Photo'>" +
                     "<p><button><a href='/addlist'>New wishList!</a></button></p>" +
                     "</center>" +
                     "<h3>Your wishLists:</h3>" +
