@@ -8,8 +8,8 @@ let sessiondata = require("./sessions");
 let app = express();
 let con = mysql.createConnection({ //begins connection to mySQL server
     'host': 'localhost',
-    'user': 'root',
-    'password': 'Lj918818718$',
+    'user': 'wishadmin',
+    'password': 'lls375w!$h',
     'database': 'wishlist'
 });
 let randomStr = sessiondata.randomString;
@@ -108,7 +108,7 @@ app.post("/auth", function(req, res) { //authorizes login from user
         });
     }
     else {
-        res.redirect("./login.html");
+        res.redirect("/loginpage");
         res.end();
     }
 });
@@ -147,9 +147,26 @@ app.get("/home", function(req, res) {
         con.query(numQuery, function(err, result, fields) {
             if (err) {
                 console.log("Error:", err);
+                mystr += "<h3>There was an error in retrieving your lists."
+                mystr += "</div>" +
+                    "</body>" +
+                    "</html>";
+                res.send(mystr);
+            }
+            if (result.length <= 0) {
+                mystr += "<h3>You currently have no wishlists created!</h3>" +
+                    "</div>" +
+                    "</body>" +
+                    "</html>";
+                res.send(mystr);
             }
             else {
-                console.log(result, result.length, result.length <= 0);
+                mystr += "<table>"
+                for (let index = 0; index < result.length; index++) {
+                    mystr += "<tr><th>" + result[index].name_of_wishlist + "</th></tr>";
+                }
+                mystr += "</table>" + "</div>" + "</body>" + "</html>";
+                res.send(mystr);
             }
         });
         /*
@@ -178,10 +195,6 @@ app.get("/home", function(req, res) {
                         "</ul>" +
                         "</td></table>" +
                         */
-        mystr += "</div>" +
-                "</body>" +
-            "</html>";
-        res.send(mystr);
     }
 });
 
@@ -213,7 +226,8 @@ app.get("/addlist", function(req, res) {
             "</form>";
 
         if (req.cookie.status) {
-            mystr += "<p style='color: red'>" + req.cookie.status + "</p>";
+            mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
+                "<p>Click here to return to the <a href='/home'>homepage</a>.</p>";
             delete req.cookie.status;
         }
 
