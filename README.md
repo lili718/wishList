@@ -9,6 +9,11 @@ Most shopping websites have a wish list specific feature to them, however, there
 * [Facebook Login API](https://developers.facebook.com/docs/facebook-login/)
 * [MySQL](https://www.mysql.com/)
 * [Node.js](https://nodejs.org/en/)
+  * Modules Used:
+    * Express
+    * mySQL
+    * Client-Sessions
+    * Body-Parser
 * Github Pages
 * HTML
 * CSS
