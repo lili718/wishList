@@ -163,11 +163,23 @@ app.get("/home", function(req, res) {
                 res.send(mystr);
             }
             else {
-                mystr += "<table>"
+                /*
+                    for (let index = 0; index < result.length; index++){
+                        mystr += "<div id=>" +
+                                    "<p><strong>" + result[index].name_of_wishlst +
+                                    "</strong></p>"+
+                                    "<ul></ul>"+
+                                "</div>";
+                        document.getElementsByTagName("div")[index].setAttribute("id", result[index].name_of_wishlst);
+                        document.getElementsByTagName("ul")[index].setAttribute("id", result[index].name_of_wishlst + "list");
+                    }
+                    res.send(mystr);
+                */
+                
                 for (let index = 0; index < result.length; index++) {
-                    mystr += "<tr><th>" + result[index].name_of_wishlist + "</th></tr>";
+                    mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>" + "<ul></ul>" + "</td>" + "</table>";
                 }
-                mystr += "</table>" + "</div>" + "</body>" + "</html>";
+                mystr += "</div>" + "</body>" + "</html>";
                 res.send(mystr);
             }
         });
