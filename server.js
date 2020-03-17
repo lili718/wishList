@@ -146,7 +146,10 @@ app.get("/home", function(req, res) {
         let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
         con.query(numQuery, function(err, result, fields) {
             if (err) {
-                console.log("Error with retrieving wishlist query.")
+                console.log("Error:", err);
+            }
+            else {
+                console.log(result, result.length, result.length <= 0);
             }
         });
         /*
