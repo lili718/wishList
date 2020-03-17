@@ -133,18 +133,26 @@ app.get("/home", function(req, res) {
                         "<span><a href='./aboutus.html'>about us</a></span>" +
                         "<span><a href='./contactus.html'>contact us</a></span>" +
                         "<span><a href='./settings.html'>settings</a></span>" +
-                        "<span><a href='logout'>logout</a></span>" +
+                        "<span><a href='/logout'>logout</a></span>" +
                     "</div>" +
                     "<center>" +
                     "<h3 id='header'>Welcome " + req.cookie.user+ "!</h3>" +
                     "<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4S71dwKwLP6LUciL0KOzTIqGDVIaympgl-_r_oRrz5K02aavq' alt='User Photo'>" +
-                    "<P><button>New wishList!</button></P>" +
+                    "<p><button><a href='/addlist'>New wishList!</a></button></p>" +
                     "</center>" +
                     "<h3>Your wishLists:</h3>" +
-                    "<div class='container'>" +
+                    "<div class='container'>";
+
+        let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
+        con.query(numQuery, function(err, result, fields) {
+            if (err) {
+                console.log("Error with retrieving wishlist query.")
+            }
+        });
+        /*
                         "<table><tr><th><h2>wishList 1</h2></th></tr>" +
                             "<td>" +
-            "                <ul>" +
+                            "<ul>" +
                                 "<li>item 1</li>" +
                                 "<li>item 2</li>" +
                                 "<li>item 3</li>" +
@@ -166,18 +174,79 @@ app.get("/home", function(req, res) {
                                 "<li>item 3</li>" +
                         "</ul>" +
                         "</td></table>" +
-                    "</div>" +
+                        */
+        mystr += "</div>" +
                 "</body>" +
             "</html>";
         res.send(mystr);
     }
 });
 
+app.get("/addlist", function(req, res) {
+    if(!req.cookie.user) {
+        req.cookie.msg = "Please login.";
+        return res.redirect("/loginpage");
+    }
+    else {
+        let mystr = "       <!DOCTYPE html>\n" +
+            "    <html lang='en'>\n" +
+            "        <head>\n" +
+            "        <meta name='viewport' content='width=device-width, initial-scale=1'>\n" +
+            "        <title>wishList Homepage</title>\n" +
+            "    <link rel='stylesheet' href='styles.css'>\n" +
+            "    </head>\n" +
+            "    <body>\n" +
+            "    <div id='navBar'>\n" +
+            "        <span id='title'><a href='/home'>wishList</a></span>\n" +
+            "        <span><a href='aboutus.html'>about us</a></span>\n" +
+            "    <span><a href='contactus.html'>contact us</a></span>\n" +
+            "    </div>\n" +
+            "<div class='container'>" +
+            "<form method='get' action='/addedlist'>" +
+            "<h3>Creation of a New List</h3>" +
+            "<label for='nameofNewList'>Name of New List:</label>" +
+            "<input type='text' name='nameofNewList'>" +
+            "<input id='newlistbutton' type='submit' value='Submit New List Creation'>" +
+            "</form>";
+
+        if (req.cookie.status) {
+            mystr += "<p style='color: red'>" + req.cookie.status + "</p>";
+            delete req.cookie.status;
+        }
+
+        mystr += "</div>" +
+            "    </body>\n" +
+            "    </html>";
+        res.send(mystr);
+    }
+});
+
+app.get("/addedlist", function(req, res) {
+    let name = req.query.nameofNewList;
+    if (name) {
+        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "');"
+        con.query(query, function(err, rows, fields) {
+            if (err) {
+                console.log("Error has occurred:\n", err);
+            }
+            else {
+                console.log("Addition successful.")
+            }
+        });
+        req.cookie.status = "List added! Return to homepage to see list.";
+        res.redirect("/addlist");
+    }
+    else {
+        req.cookie.status = "Error with adding list. Try again.";
+        res.redirect("/addlist");
+    }
+});
+
 app.get("/logout", function(req, res) {
     req.cookie.reset();
     req.cookie.msg = "You have successfully logged out!";
-    return res.redirect("./loginpage")
-})
+    return res.redirect("./loginpage");
+});
 
 app.listen(8080, function() { //method to listen to server on port 8080
     console.log("Server running.")
