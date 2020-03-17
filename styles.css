@@ -29,7 +29,7 @@ a {
 }
 
 input[type=submit] {
-    width: 10%;
+    width: 20%;
     background-color: #7331B5;
     color: white;
     padding: 14px 20px;
@@ -37,6 +37,11 @@ input[type=submit] {
     border: none;
     cursor: pointer;
     border-radius: 100px;
+}
+
+input[type=text] {
+    width: 30%;
+    height: 30px;
 }
 
 .fb-login-button {

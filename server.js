@@ -8,8 +8,8 @@ let sessiondata = require("./sessions");
 let app = express();
 let con = mysql.createConnection({ //begins connection to mySQL server
     'host': 'localhost',
-    'user': 'wishadmin',
-    'password': 'lls375w!$h',
+    'user': 'root',
+    'password': 'Lj918818718$',
     'database': 'wishlist'
 });
 let randomStr = sessiondata.randomString;
