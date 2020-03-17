@@ -39,6 +39,11 @@ input[type=submit] {
     border-radius: 100px;
 }
 
+input[type=text] {
+    width: 30%;
+    height: 30px;
+}
+
 .fb-login-button {
     margin-top: 30px;
 }
@@ -85,4 +90,10 @@ h a {
 }
 .description {
     font-size: 20px;
+}
+button a {
+    color: white;
+}
+#newlistbutton {
+    width: 30%;
 }
