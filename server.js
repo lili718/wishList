@@ -165,59 +165,33 @@ app.get("/home", function(req, res) {
             }
             else {
                 for (let index = 0; index < result.length; index++) {
-                    mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>" + "<ul>";
-                        let lQuery = "SELECT * FROM wishlist_items WHERE wishlist_number = '" + result[index].wishlist_num + "';";
-                        con.query(lQuery, function(err, resu, fields){
-                            if (err) {
-                                console.log("Error:", err);
-                                mystr += "<p>There was an error in retrieving your list items.</p>";
-                                //res.send(mystr);
+                    let lQuery = "SELECT * FROM wishlist_items WHERE wishlist_number = '" + result[index].wishlist_num + "';";
+                    con.query(lQuery, function(err, resu, fields){
+                        mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>";
+                        if (err) {
+                            console.log("Error:", err);
+                            mystr += "<p>There was an error in retrieving your list items.</p>";
+                        }
+                        if (resu.length <=0){
+                            mystr += "<p>You currently have no items in this list.</p>";
+                        }
+                        else{
+                            mystr += "<ul>";
+                            for (let i=0; i<resu.length; i++) {
+                                mystr += "<li><a href='https://" + resu[i].link + "'>"+ resu[i].name +
+                                    "</a>" + ", $" + resu[i].price + "</li>";
                             }
-                            if (resu.length <=0){
-                                mystr += "<p>You currently have no items in this list.</p>";
-                                console.log(resu.length)
-                                //res.send(mystr);
-                            }
-                            else{
-                                for (let i=0; i<resu.length; i++){
-                                    mystr += "<li><a href='" + resu[i].link + "'>"+ resu[i].name +
-                                        "</a></li>";
-                                    //res.send(mystr);
-                                }
-                            }
-                        });
-                    mystr += "</ul>" + "</td>" + "</table>";
+                            mystr += "</ul>" + "</td>" + "</table>";
+                        }
+                        if (index === (result.length - 1)) {
+                            mystr += "<p><button><a href='/additem'>Add new item to a wishlist!</a></button></p>" + "</div>" + "</body>" + "</html>";
+                            res.send(mystr);
+                            console.log(mystr);
+                        }
+                    });
                 }
-                mystr += "<p><button><a href='/additem'>Add new item to a wishlist!</a></button></p>" + "</div>" + "</body>" + "</html>";
-                res.send(mystr);
             }
         });
-        /*
-                        "<table><tr><th><h2>wishList 1</h2></th></tr>" +
-                            "<td>" +
-                            "<ul>" +
-                                "<li>item 1</li>" +
-                                "<li>item 2</li>" +
-                                "<li>item 3</li>" +
-                            "</ul>" +
-                            "</td></table>" +
-                        "<table><tr><th><h2>wishList 2</h2></th></tr>" +
-                        "<td>" +
-                        "<ul>" +
-                            "<li>item 1</li>" +
-                            "<li>item 2</li>" +
-                            "<li>item 3</li>" +
-                        "</ul>" +
-                        "</td></table>" +
-                        "<table><tr><th><h2>wishList 3</h2></th></tr>" +
-                        "<td>" +
-                        "<ul>" +
-                                "<li>item 1</li>" +
-                                "<li>item 2</li>" +
-                                "<li>item 3</li>" +
-                        "</ul>" +
-                        "</td></table>" +
-                        */
     }
 });
 
