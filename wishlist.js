@@ -29,7 +29,7 @@ FB.login(function(response){
     }
     //scope is any additional info we want thats not default
     //defaul: id, first_name, last_name, middle_name, name, name_format, picture, short_name
-}), {scope: 'public_profile,email'});
+}), {scope: 'public_profile,email'};
 
 FB.logout(function(response) {
    // Person is now logged out
