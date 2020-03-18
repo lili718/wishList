@@ -64,10 +64,11 @@ app.get("/loginpage", function(req, res) {
             delete req.cookie.msg;
         }
 
-            mystr += "<form method='POST' action='./auth'>" +
+            mystr += "<form class='center' method='POST' action='./auth'>" +
                             "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
                             "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
-                            "<input type='submit' value='Login'>" +
+                            "</center><input type='submit' value='Login'></center>" +
+
                         "</form>" +
                     "</div>" +
                 "</div>" +
@@ -139,7 +140,7 @@ app.get("/home", function(req, res) {
                     "</div>" +
                     "<center>" +
                     "<h3 id='header'>Welcome " + req.cookie.user+ "!</h3>" +
-                    "<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4S71dwKwLP6LUciL0KOzTIqGDVIaympgl-_r_oRrz5K02aavq' alt='User Photo'>" +
+                    "<img id='userPhoto' src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4S71dwKwLP6LUciL0KOzTIqGDVIaympgl-_r_oRrz5K02aavq' alt='User Photo'>" +
                     "<p><button><a href='/addlist'>New wishList!</a></button></p>" +
                     "</center>" +
                     "<h3>Your wishLists:</h3>" +
@@ -149,7 +150,7 @@ app.get("/home", function(req, res) {
         con.query(numQuery, function(err, result, fields) {
             if (err) {
                 console.log("Error:", err);
-                mystr += "<h3>There was an error in retrieving your lists."
+                mystr += "<h3>There was an error in retrieving your lists.</h3>"
                 mystr += "</div>" +
                     "</body>" +
                     "</html>";
@@ -163,11 +164,31 @@ app.get("/home", function(req, res) {
                 res.send(mystr);
             }
             else {
-                mystr += "<table>"
                 for (let index = 0; index < result.length; index++) {
-                    mystr += "<tr><th>" + result[index].name_of_wishlist + "</th></tr>";
+                    mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>" + "<ul>";
+                        let lQuery = "SELECT * FROM wishlist_items WHERE wishlist_number = '" + result[index].wishlist_num + "';";
+                        con.query(lQuery, function(err, resu, fields){
+                            if (err) {
+                                console.log("Error:", err);
+                                mystr += "<p>There was an error in retrieving your list items.</p>";
+                                //res.send(mystr);
+                            }
+                            if (resu.length <=0){
+                                mystr += "<p>You currently have no items in this list.</p>";
+                                console.log(resu.length)
+                                //res.send(mystr);
+                            }
+                            else{
+                                for (let i=0; i<resu.length; i++){
+                                    mystr += "<li><a href='" + resu[i].link + "'>"+ resu[i].name +
+                                        "</a></li>";
+                                    //res.send(mystr);
+                                }
+                            }
+                        });
+                    mystr += "</ul>" + "</td>" + "</table>";
                 }
-                mystr += "</table>" + "</div>" + "</body>" + "</html>";
+                mystr += "<p><button><a href='/additem'>Add new item to a wishlist!</a></button></p>" + "</div>" + "</body>" + "</html>";
                 res.send(mystr);
             }
         });
@@ -219,12 +240,11 @@ app.get("/addlist", function(req, res) {
             "        <span><a href='aboutus.html'>about us</a></span>\n" +
             "    <span><a href='contactus.html'>contact us</a></span>\n" +
             "    </div>\n" +
-            "<div class='container'>" +
+            "<center><div class='container'>" +
             "<form method='get' action='/addedlist'>" +
             "<h3>Creation of a New List</h3>" +
-            "<label for='nameofNewList'>Name of New List:</label>" +
-            "<input type='text' name='nameofNewList'>" +
-            "<input id='newlistbutton' type='submit' value='Submit New List Creation'>" +
+            "<input type='text' name='nameofNewList' placeholder='Name of New Item' style='text-align: center'>" +
+            "<center><input id='newlistbutton' type='submit' value='Submit New List Creation'></center>" +
             "</form>";
 
         if (req.cookie.status) {
@@ -233,7 +253,7 @@ app.get("/addlist", function(req, res) {
             delete req.cookie.status;
         }
 
-        mystr += "</div>" +
+        mystr += "</div></center>" +
             "    </body>\n" +
             "    </html>";
         res.send(mystr);
@@ -243,13 +263,13 @@ app.get("/addlist", function(req, res) {
 app.get("/addedlist", function(req, res) {
     let name = req.query.nameofNewList;
     if (name) {
-        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "');"
+        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "')";
         con.query(query, function(err, rows, fields) {
             if (err) {
                 console.log("Error has occurred:\n", err);
             }
             else {
-                console.log("Addition successful.")
+                console.log("Addition successful.");
             }
         });
         req.cookie.status = "List added! Return to homepage to see list.";
@@ -258,6 +278,79 @@ app.get("/addedlist", function(req, res) {
     else {
         req.cookie.status = "Error with adding list. Try again.";
         res.redirect("/addlist");
+    }
+});
+
+app.get("/additem", function(req, res){
+    if(!req.cookie.user) {
+        req.cookie.msg = "Please login.";
+        return res.redirect("/loginpage");
+    }
+    else{
+        let mystr = "       <!DOCTYPE html>\n" +
+            "    <html lang='en'>\n" +
+            "        <head>\n" +
+            "        <meta name='viewport' content='width=device-width, initial-scale=1'>\n" +
+            "        <title>wishList Homepage</title>\n" +
+            "    <link rel='stylesheet' href='styles.css'>\n" +
+            "    </head>\n" +
+            "    <body>\n" +
+            "    <div id='navBar'>\n" +
+            "        <span id='title'><a href='/home'>wishList</a></span>\n" +
+            "        <span><a href='aboutus.html'>about us</a></span>\n" +
+            "    <span><a href='contactus.html'>contact us</a></span>\n" +
+            "    </div>\n" +
+            "<center><div class='container'>" +
+            "<center><form method='get' action='/addeditem'>" +
+            "<h3>Creation of a Item</h3>" +
+            "<label for='wishlist'>Choose the wish list to add to:</label>" +
+            "<select id='wishlist'>";
+            let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
+            con.query(numQuery, function(err, result, fields) {
+                for(let index = 0; index < result.length; index++){
+                    mystr += "<option value='" + result[index].name_of_wishlist + "'>" + result[index].name_of_wishlist + "</option>"
+                    console.log(result[index].name_of_wishlist);
+                }
+                mystr +=
+                    "<input type='text' name='nameofNewItem' placeholder='Name of New Item' style='text-align: center'>" +
+                    "<input type='number; step='0.01' price='priceofNewItem' placeholder='Price of New Item' style='text-align: center'>" +
+                    "<input type='url' name='linkofNewItem' placeholder='Link of New Item' style='text-align: center'>" +
+                    "<center><input id='newitembutton' type='submit' value='Submit New item'></center>" +
+                    "</form>";
+                if (req.cookie.status) {
+                    mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
+                        "<p>Click here to return to the <a href='/home'>homepage</a>.</p>";
+                    delete req.cookie.status;
+                }
+                mystr += "</div>" +
+                    "    </body>\n" +
+                    "    </html>";
+                res.send(mystr);
+             });
+    }
+});
+
+app.get("/addeditem", function(req, res) {
+    let name = req.query.nameofNewItem;
+    let price = req.query.priceofNewItem;
+    let link = req.query.linkofNewItem;
+    //get wishlist number !!!!
+    if (name) {
+        let query = "INSERT INTO wishlist_items (name, price, link) VALUES ('" + name + "','" + price + "','" + link + "');"
+        con.query(query, function(err, rows, fields) {
+            if (err) {
+                console.log("Error has occurred:\n", err);
+            }
+            else {
+                console.log("Addition successful.");
+            }
+        });
+        req.cookie.status = "List item added! Return to homepage to see list.";
+        res.redirect("/additem");
+    }
+    else {
+        req.cookie.status = "Error with adding item. Try again.";
+        res.redirect("/additem");
     }
 });
 
