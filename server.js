@@ -149,7 +149,7 @@ app.get("/home", function(req, res) {
         con.query(numQuery, function(err, result, fields) {
             if (err) {
                 console.log("Error:", err);
-                mystr += "<h3>There was an error in retrieving your lists."
+                mystr += "<h3>There was an error in retrieving your lists.</h3>"
                 mystr += "</div>" +
                     "</body>" +
                     "</html>";
@@ -163,23 +163,32 @@ app.get("/home", function(req, res) {
                 res.send(mystr);
             }
             else {
-                /*
-                    for (let index = 0; index < result.length; index++){
-                        mystr += "<div id=>" +
-                                    "<p><strong>" + result[index].name_of_wishlst +
-                                    "</strong></p>"+
-                                    "<ul></ul>"+
-                                "</div>";
-                        document.getElementsByTagName("div")[index].setAttribute("id", result[index].name_of_wishlst);
-                        document.getElementsByTagName("ul")[index].setAttribute("id", result[index].name_of_wishlst + "list");
-                    }
-                    res.send(mystr);
-                */
                 
                 for (let index = 0; index < result.length; index++) {
-                    mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>" + "<ul></ul>" + "</td>" + "</table>";
+                    mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>" + "<ul>";
+                        let lQuery = "SELECT * FROM wishlist_items WHERE wishlist_number = '" + result[index].wishlist_num + "';";
+                        con.query(lQuery, function(err, resu, fields){
+                            if (err) {
+                                console.log("Error:", err);
+                                mystr += "<p>There was an error in retrieving your list items.</p>";
+                                //res.send(mystr);
+                            }
+                            if (resu.length <=0){
+                                mystr += "<p>You currently have no items in this list.</p>";
+                                console.log(resu.length)
+                                //res.send(mystr);
+                            }
+                            else{
+                                for (let i=0; i<resu.length; i++){
+                                    mystr += "<li><a href='" + resu[i].link + "'>"+ resu[i].name +
+                                        "</a></li>";
+                                    //res.send(mystr);
+                                }
+                            }
+                        });
+                    mystr += "</ul>" + "</td>" + "</table>";
                 }
-                mystr += "</div>" + "</body>" + "</html>";
+                mystr += "<p><button><a href='/additem'>Add new item to a wishlist!</a></button></p>" + "</div>" + "</body>" + "</html>";
                 res.send(mystr);
             }
         });
@@ -261,7 +270,7 @@ app.get("/addedlist", function(req, res) {
                 console.log("Error has occurred:\n", err);
             }
             else {
-                console.log("Addition successful.")
+                console.log("Addition successful.");
             }
         });
         req.cookie.status = "List added! Return to homepage to see list.";
@@ -270,6 +279,82 @@ app.get("/addedlist", function(req, res) {
     else {
         req.cookie.status = "Error with adding list. Try again.";
         res.redirect("/addlist");
+    }
+});
+
+app.get("/additem", function(req, res){
+    if(!req.cookie.user) {
+        req.cookie.msg = "Please login.";
+        return res.redirect("/loginpage");
+    }
+    else{
+        let mystr = "       <!DOCTYPE html>\n" +
+            "    <html lang='en'>\n" +
+            "        <head>\n" +
+            "        <meta name='viewport' content='width=device-width, initial-scale=1'>\n" +
+            "        <title>wishList Homepage</title>\n" +
+            "    <link rel='stylesheet' href='styles.css'>\n" +
+            "    </head>\n" +
+            "    <body>\n" +
+            "    <div id='navBar'>\n" +
+            "        <span id='title'><a href='/home'>wishList</a></span>\n" +
+            "        <span><a href='aboutus.html'>about us</a></span>\n" +
+            "    <span><a href='contactus.html'>contact us</a></span>\n" +
+            "    </div>\n" +
+            "<div class='container'>" +
+            "<form method='get' action='/addeditem'>" +
+            "<h3>Creation of a Item</h3>" +
+            "<label for='wishlist'>Choose the wish list to add to:</label>" +
+            "<select id='wishlist'>";
+            let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
+            con.query(numQuery, function(err, result, fields) {
+                for(let index = 0; index < result.length; index++){
+                    mystr += "<option value='" + result[index].name_of_wishlist + "'>" + result[index].name_of_wishlist + "</option>"
+                }
+             });
+            mystr += "</select>"+"<label for='nameofNewItem'>Name of New Item:</label>" +
+            "<input type='text' name='nameofNewItem'>" +
+            "<label for='priceofNewItem'>Price of New Item:</label>" +
+            "<input type='float' price='priceofNewItem'>" +
+            "<label for='linkofNewItem'>link of New Item:</label>" +
+            "<input type='text' name='linkofNewItem'>" +
+            "<input id='newitembutton' type='submit' value='Submit New item'>" +
+            "</form>";
+
+        if (req.cookie.status) {
+            mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
+                "<p>Click here to return to the <a href='/home'>homepage</a>.</p>";
+            delete req.cookie.status;
+        }
+
+        mystr += "</div>" +
+            "    </body>\n" +
+            "    </html>";
+        res.send(mystr);
+    }
+});
+
+app.get("/addeditem", function(req, res) {
+    let name = req.query.nameofNewItem;
+    let price = req.query.priceofNewItem;
+    let link = req.query.linkofNewItem;
+    //get wishlist number !!!!
+    if (name) {
+        let query = "INSERT INTO wishlist_items (name, price, link) VALUES ('" + name + "','" + price + "','" + link + "');"
+        con.query(query, function(err, rows, fields) {
+            if (err) {
+                console.log("Error has occurred:\n", err);
+            }
+            else {
+                console.log("Addition successful.");
+            }
+        });
+        req.cookie.status = "List item added! Return to homepage to see list.";
+        res.redirect("/additem");
+    }
+    else {
+        req.cookie.status = "Error with adding item. Try again.";
+        res.redirect("/additem");
     }
 });
 
