@@ -39,10 +39,6 @@ input[type=submit] {
     border-radius: 100px;
 }
 
-input[type=text] {
-   
-}
-
 .fb-login-button {
     margin-top: 30px;
 }
@@ -103,4 +99,7 @@ button a {
 }
 #loginpass {
     margin-right: 70%;
+}
+#addbutton {
+    margin: 2% 100%;
 }

@@ -67,7 +67,7 @@ app.get("/loginpage", function(req, res) {
             mystr += "<form class='center' method='POST' action='./auth'>" +
                             "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
                             "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
-                            "</center><input type='submit' value='Login'></center>" +
+                            "<center><input type='submit' value='Login'></center>" +
 
                         "</form>" +
                     "</div>" +
@@ -184,9 +184,8 @@ app.get("/home", function(req, res) {
                             mystr += "</ul>" + "</td>" + "</table>";
                         }
                         if (index === (result.length - 1)) {
-                            mystr += "<p><button><a href='/additem'>Add new item to a wishlist!</a></button></p>" + "</div>" + "</body>" + "</html>";
+                            mystr += "<button id='addbutton'><a href='/additem'>Add new item to a wishlist!</a></button>" + "</div>" + "</body>" + "</html>";
                             res.send(mystr);
-                            console.log(mystr);
                         }
                     });
                 }
@@ -283,7 +282,6 @@ app.get("/additem", function(req, res){
             con.query(numQuery, function(err, result, fields) {
                 for(let index = 0; index < result.length; index++){
                     mystr += "<option value='" + result[index].name_of_wishlist + "'>" + result[index].name_of_wishlist + "</option>"
-                    console.log(result[index].name_of_wishlist);
                 }
                 mystr +=
                     "<input type='text' name='nameofNewItem' placeholder='Name of New Item' style='text-align: center'>" +
@@ -308,9 +306,7 @@ app.get("/addeditem", function(req, res) {
     let listName = req.query.nameoflist;
     let name = req.query.nameofNewItem;
     let price = req.query.priceofNewItem;
-    console.log(price);
     let link = req.query.linkofNewItem;
-    console.log(listName, name, price, link);
     let nQuery = "SELECT wishlist_num FROM wishlists WHERE userID = '" + req.cookie.user + "' AND name_of_wishlist = '" + listName + "';";
     con.query(nQuery, function(err, result, fields) {
         if (err) {
@@ -319,7 +315,6 @@ app.get("/addeditem", function(req, res) {
         let list_num = result[0].wishlist_num;
         if (name && listName) {
             let query = "INSERT INTO wishlist_items (wishlist_number, name, price, link, picture) VALUES ('" + list_num + "', '" + name + "', '" + price + "', '" + link + "', 'pic');";
-            console.log(query);
             con.query(query, function(err, rows, fields) {
                 if (err) {
                     console.log("Error has occurred:\n", err);
