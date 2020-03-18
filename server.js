@@ -67,7 +67,7 @@ app.get("/loginpage", function(req, res) {
             mystr += "<form class='center' method='POST' action='./auth'>" +
                             "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
                             "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
-                            "<input type='submit' value='Login'>" +
+                            "</center><input type='submit' value='Login'></center>" +
 
                         "</form>" +
                     "</div>" +
@@ -243,8 +243,7 @@ app.get("/addlist", function(req, res) {
             "<center><div class='container'>" +
             "<form method='get' action='/addedlist'>" +
             "<h3>Creation of a New List</h3>" +
-            "<label for='nameofNewList'>Name of New List:</label>" +
-            "<input type='text' name='nameofNewList'>" +
+            "<input type='text' name='nameofNewList' placeholder='Name of New Item' style='text-align: center'>" +
             "<center><input id='newlistbutton' type='submit' value='Submit New List Creation'></center>" +
             "</form>";
 
@@ -312,13 +311,11 @@ app.get("/additem", function(req, res){
                     mystr += "<option value='" + result[index].name_of_wishlist + "'>" + result[index].name_of_wishlist + "</option>"
                     console.log(result[index].name_of_wishlist);
                 }
-                mystr += "</select>"+"<label for='nameofNewItem'>Name of New Item:</label>" +
-                    "<input type='text' name='nameofNewItem'>" +
-                    "<label for='priceofNewItem'>Price of New Item:</label>" +
-                    "<input type='float' price='priceofNewItem'>" +
-                    "<label for='linkofNewItem'>link of New Item:</label>" +
-                    "<input type='text' name='linkofNewItem'>" +
-                    "<input id='newitembutton' type='submit' value='Submit New item'>" +
+                mystr +=
+                    "<input type='text' name='nameofNewItem' placeholder='Name of New Item' style='text-align: center'>" +
+                    "<input type='number; step='0.01' price='priceofNewItem' placeholder='Price of New Item' style='text-align: center'>" +
+                    "<input type='url' name='linkofNewItem' placeholder='Link of New Item' style='text-align: center'>" +
+                    "<center><input id='newitembutton' type='submit' value='Submit New item'></center>" +
                     "</form>";
                 if (req.cookie.status) {
                     mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
