@@ -178,7 +178,7 @@ app.get("/home", function(req, res) {
                         else{
                             mystr += "<ul>";
                             for (let i=0; i<resu.length; i++) {
-                                mystr += "<li><a href='https://" + resu[i].link + "'>"+ resu[i].name +
+                                mystr += "<li><a href='" + resu[i].link + "'>"+ resu[i].name +
                                     "</a>" + ", $" + resu[i].price + "</li>";
                             }
                             mystr += "</ul>" + "</td>" + "</table>";
@@ -278,7 +278,7 @@ app.get("/additem", function(req, res){
             "<center><form method='get' action='/addeditem'>" +
             "<h3>Creation of a Item</h3>" +
             "<label for='wishlist'>Choose the wish list to add to:</label>" +
-            "<select id='wishlist'>";
+            "<select name='nameoflist' id='wishlist'>";
             let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
             con.query(numQuery, function(err, result, fields) {
                 for(let index = 0; index < result.length; index++){
@@ -287,7 +287,7 @@ app.get("/additem", function(req, res){
                 }
                 mystr +=
                     "<input type='text' name='nameofNewItem' placeholder='Name of New Item' style='text-align: center'>" +
-                    "<input type='number; step='0.01' price='priceofNewItem' placeholder='Price of New Item' style='text-align: center'>" +
+                    "<input type='text' name='priceofNewItem' placeholder='Price of New Item' style='text-align: center'>" +
                     "<input type='url' name='linkofNewItem' placeholder='Link of New Item' style='text-align: center'>" +
                     "<center><input id='newitembutton' type='submit' value='Submit New item'></center>" +
                     "</form>";
@@ -305,27 +305,38 @@ app.get("/additem", function(req, res){
 });
 
 app.get("/addeditem", function(req, res) {
+    let listName = req.query.nameoflist;
     let name = req.query.nameofNewItem;
     let price = req.query.priceofNewItem;
+    console.log(price);
     let link = req.query.linkofNewItem;
-    //get wishlist number !!!!
-    if (name) {
-        let query = "INSERT INTO wishlist_items (name, price, link) VALUES ('" + name + "','" + price + "','" + link + "');"
-        con.query(query, function(err, rows, fields) {
-            if (err) {
-                console.log("Error has occurred:\n", err);
-            }
-            else {
-                console.log("Addition successful.");
-            }
-        });
-        req.cookie.status = "List item added! Return to homepage to see list.";
-        res.redirect("/additem");
-    }
-    else {
-        req.cookie.status = "Error with adding item. Try again.";
-        res.redirect("/additem");
-    }
+    console.log(listName, name, price, link);
+    let nQuery = "SELECT wishlist_num FROM wishlists WHERE userID = '" + req.cookie.user + "' AND name_of_wishlist = '" + listName + "';";
+    con.query(nQuery, function(err, result, fields) {
+        if (err) {
+            console.log("Error has occurred:\n", err);
+        }
+        let list_num = result[0].wishlist_num;
+        if (name && listName) {
+            let query = "INSERT INTO wishlist_items (wishlist_number, name, price, link, picture) VALUES ('" + list_num + "', '" + name + "', '" + price + "', '" + link + "', 'pic');";
+            console.log(query);
+            con.query(query, function(err, rows, fields) {
+                if (err) {
+                    console.log("Error has occurred:\n", err);
+                }
+                else {
+                    console.log("Addition successful.");
+                }
+            });
+            req.cookie.status = "List item added! Return to homepage to see list.";
+            res.redirect("/additem");
+        }
+        else {
+            req.cookie.status = "Error with adding item. Try again.";
+            res.redirect("/additem");
+        }
+    });
+
 });
 
 app.get("/logout", function(req, res) {
