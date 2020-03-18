@@ -241,7 +241,7 @@ app.get("/addlist", function(req, res) {
 app.get("/addedlist", function(req, res) {
     let name = req.query.nameofNewList;
     if (name) {
-        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "');"
+        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "')";
         con.query(query, function(err, rows, fields) {
             if (err) {
                 console.log("Error has occurred:\n", err);
