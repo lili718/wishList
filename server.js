@@ -143,7 +143,7 @@ app.get("/home", function(req, res) {
                     "<img id='userPhoto' src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ4S71dwKwLP6LUciL0KOzTIqGDVIaympgl-_r_oRrz5K02aavq' alt='User Photo'>" +
                     "<p><button><a href='/addlist'>New wishList!</a></button></p>" +
                     "</center>" +
-                    "<h3>Your wishLists:</h3>" +
+                    "<center><h3>Your wishLists:</h3></center>" +
                     "<div class='container'>";
 
         let numQuery = "SELECT * FROM wishlists WHERE userID = '" + req.cookie.user +"';";
