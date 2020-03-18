@@ -67,7 +67,7 @@ app.get("/loginpage", function(req, res) {
             mystr += "<form method='POST' action='./auth'>" +
                             "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
                             "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
-                            "<input type='submit' value='Login'>" +
+                            "<center><input type='submit' value='Login'></center>" +
                         "</form>" +
                     "</div>" +
                 "</div>" +
@@ -240,12 +240,12 @@ app.get("/addlist", function(req, res) {
             "        <span><a href='aboutus.html'>about us</a></span>\n" +
             "    <span><a href='contactus.html'>contact us</a></span>\n" +
             "    </div>\n" +
-            "<div class='container'>" +
+            "<center><div class='container'>" +
             "<form method='get' action='/addedlist'>" +
             "<h3>Creation of a New List</h3>" +
             "<label for='nameofNewList'>Name of New List:</label>" +
             "<input type='text' name='nameofNewList'>" +
-            "<input id='newlistbutton' type='submit' value='Submit New List Creation'>" +
+            "<center><input id='newlistbutton' type='submit' value='Submit New List Creation'></center>" +
             "</form>";
 
         if (req.cookie.status) {
@@ -254,7 +254,7 @@ app.get("/addlist", function(req, res) {
             delete req.cookie.status;
         }
 
-        mystr += "</div>" +
+        mystr += "</div></center>" +
             "    </body>\n" +
             "    </html>";
         res.send(mystr);
@@ -301,8 +301,8 @@ app.get("/additem", function(req, res){
             "        <span><a href='aboutus.html'>about us</a></span>\n" +
             "    <span><a href='contactus.html'>contact us</a></span>\n" +
             "    </div>\n" +
-            "<div class='container'>" +
-            "<form method='get' action='/addeditem'>" +
+            "<center><div class='container'>" +
+            "<center><form method='get' action='/addeditem'>" +
             "<h3>Creation of a Item</h3>" +
             "<label for='wishlist'>Choose the wish list to add to:</label>" +
             "<select id='wishlist'>";
@@ -318,8 +318,8 @@ app.get("/additem", function(req, res){
             "<input type='float' price='priceofNewItem'>" +
             "<label for='linkofNewItem'>link of New Item:</label>" +
             "<input type='text' name='linkofNewItem'>" +
-            "<input id='newitembutton' type='submit' value='Submit New item'>" +
-            "</form>";
+            "<center><input id='newitembutton' type='submit' value='Submit New item'></center>" +
+            "</form></center>";
 
         if (req.cookie.status) {
             mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
@@ -327,7 +327,7 @@ app.get("/additem", function(req, res){
             delete req.cookie.status;
         }
 
-        mystr += "</div>" +
+        mystr += "</div></center>" +
             "    </body>\n" +
             "    </html>";
         res.send(mystr);
