@@ -64,10 +64,11 @@ app.get("/loginpage", function(req, res) {
             delete req.cookie.msg;
         }
 
-            mystr += "<form method='POST' action='./auth'>" +
+            mystr += "<form class='center' method='POST' action='./auth'>" +
                             "<input type='text' name='user' placeholder='Username' style='text-align: center'>" +
                             "<input type='password' name='pass' placeholder='Password' style='text-align: center'>" +
-                            "<center><input type='submit' value='Login'></center>" +
+                            "<input type='submit' value='Login'>" +
+
                         "</form>" +
                     "</div>" +
                 "</div>" +
@@ -163,7 +164,6 @@ app.get("/home", function(req, res) {
                 res.send(mystr);
             }
             else {
-                
                 for (let index = 0; index < result.length; index++) {
                     mystr += "<table>"+"<tr><th>" + result[index].name_of_wishlist + "</th></tr>" + "<td>" + "<ul>";
                         let lQuery = "SELECT * FROM wishlist_items WHERE wishlist_number = '" + result[index].wishlist_num + "';";
@@ -264,7 +264,7 @@ app.get("/addlist", function(req, res) {
 app.get("/addedlist", function(req, res) {
     let name = req.query.nameofNewList;
     if (name) {
-        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "');"
+        let query = "INSERT INTO wishlists (userID, name_of_wishlist) VALUES ('" + req.cookie.user + "', '" + name + "')";
         con.query(query, function(err, rows, fields) {
             if (err) {
                 console.log("Error has occurred:\n", err);
@@ -310,27 +310,26 @@ app.get("/additem", function(req, res){
             con.query(numQuery, function(err, result, fields) {
                 for(let index = 0; index < result.length; index++){
                     mystr += "<option value='" + result[index].name_of_wishlist + "'>" + result[index].name_of_wishlist + "</option>"
+                    console.log(result[index].name_of_wishlist);
                 }
+                mystr += "</select>"+"<label for='nameofNewItem'>Name of New Item:</label>" +
+                    "<input type='text' name='nameofNewItem'>" +
+                    "<label for='priceofNewItem'>Price of New Item:</label>" +
+                    "<input type='float' price='priceofNewItem'>" +
+                    "<label for='linkofNewItem'>link of New Item:</label>" +
+                    "<input type='text' name='linkofNewItem'>" +
+                    "<input id='newitembutton' type='submit' value='Submit New item'>" +
+                    "</form>";
+                if (req.cookie.status) {
+                    mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
+                        "<p>Click here to return to the <a href='/home'>homepage</a>.</p>";
+                    delete req.cookie.status;
+                }
+                mystr += "</div>" +
+                    "    </body>\n" +
+                    "    </html>";
+                res.send(mystr);
              });
-            mystr += "</select>"+"<label for='nameofNewItem'>Name of New Item:</label>" +
-            "<input type='text' name='nameofNewItem'>" +
-            "<label for='priceofNewItem'>Price of New Item:</label>" +
-            "<input type='float' price='priceofNewItem'>" +
-            "<label for='linkofNewItem'>link of New Item:</label>" +
-            "<input type='text' name='linkofNewItem'>" +
-            "<center><input id='newitembutton' type='submit' value='Submit New item'></center>" +
-            "</form></center>";
-
-        if (req.cookie.status) {
-            mystr += "<p style='color: red'>" + req.cookie.status + "</p>" +
-                "<p>Click here to return to the <a href='/home'>homepage</a>.</p>";
-            delete req.cookie.status;
-        }
-
-        mystr += "</div></center>" +
-            "    </body>\n" +
-            "    </html>";
-        res.send(mystr);
     }
 });
 
